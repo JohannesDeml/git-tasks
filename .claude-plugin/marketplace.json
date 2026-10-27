@@ -1,0 +1,6 @@
+{
+  "name": "tasks",
+  "description": "git-tasks: simple file-based task management for Claude Code",
+  "owner": { "name": "Johannes Deml" },
+  "plugins": [{ "name": "tasks", "source": "./" }]
+}

@@ -1,0 +1,9 @@
+{
+  "name": "tasks",
+  "version": "0.1.0",
+  "description": "File-based task workflow: tasks in .tasks/{open,inProgress,done}, plans in .plans/, a /task-board pane, add/deprecate/implement skills and a progress band",
+  "author": { "name": "Johannes Deml" },
+  "license": "MIT",
+  "repository": "https://github.com/johannesDeml/git-tasks",
+  "types": "./types/index.d.ts"
+}
