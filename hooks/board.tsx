@@ -84,29 +84,29 @@ async function implement($: EngineInterface): Promise<void> {
   await $.prompt.fill({ text: prompt })
 }
 
-/** The board's command and the create tool; called at the session's start. */
-export async function startBoard($: EngineInterface): Promise<void> {
-  await $.command.register({
-    name: PANE,
-    description: 'Pick open tasks in a pane and fill the prompt with /tasks:implement',
-  })
-  await $.tool.register({
-    name: CREATE,
-    description: CREATE_DESCRIPTION,
-    isDeferred: false,
-    inputSchema: {
-      type: 'object',
-      properties: {
-        title: { type: 'string', description: 'Short title, one line' },
-        description: {
-          type: 'string',
-          description: 'What follows the bold title (Markdown)',
-        },
-      },
-      required: ['title'],
-    },
-  })
+/** The board's command; register.tsx registers it at the session's start. */
+export const BOARD_COMMAND = {
+  name: PANE,
+  description: 'Pick open tasks in a pane and fill the prompt with /tasks:implement',
 }
+
+/** The create tool; register.tsx registers it at the session's start. */
+export const CREATE_TOOL = {
+  name: CREATE,
+  description: CREATE_DESCRIPTION,
+  isDeferred: false,
+  inputSchema: {
+    type: 'object',
+    properties: {
+      title: { type: 'string', description: 'Short title, one line' },
+      description: {
+        type: 'string',
+        description: 'What follows the bold title (Markdown)',
+      },
+    },
+    required: ['title'],
+  },
+} as const
 
 export const registerBoard: Register = on => {
   on('tool.call', { tool: `mcp__tasks__${CREATE}` }, async ($, e) => {

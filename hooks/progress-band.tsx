@@ -34,35 +34,33 @@ async function startBatch($: EngineInterface): Promise<void> {
   )
 }
 
-/** The progress tool; called at the session's start. */
-export async function startProgress($: EngineInterface): Promise<void> {
-  await $.tool.register({
-    name: TOOL,
-    description: DESCRIPTION,
-    isDeferred: false,
-    inputSchema: {
-      type: 'object',
-      properties: {
-        steps: {
-          type: 'array',
-          minItems: 1,
-          items: {
-            type: 'object',
-            properties: {
-              title: { type: 'string', description: 'A few words' },
-              status: {
-                type: 'string',
-                enum: ['pending', 'in_progress', 'completed'],
-              },
+/** The progress tool; register.tsx registers it at the session's start. */
+export const PROGRESS_TOOL = {
+  name: TOOL,
+  description: DESCRIPTION,
+  isDeferred: false,
+  inputSchema: {
+    type: 'object',
+    properties: {
+      steps: {
+        type: 'array',
+        minItems: 1,
+        items: {
+          type: 'object',
+          properties: {
+            title: { type: 'string', description: 'A few words' },
+            status: {
+              type: 'string',
+              enum: ['pending', 'in_progress', 'completed'],
             },
-            required: ['title', 'status'],
           },
+          required: ['title', 'status'],
         },
       },
-      required: ['steps'],
     },
-  })
-}
+    required: ['steps'],
+  },
+} as const
 
 export const registerProgress: Register = on => {
   on('tool.call', { tool: `mcp__tasks__${TOOL}` }, async ($, e) => {
