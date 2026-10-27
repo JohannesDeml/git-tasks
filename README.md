@@ -50,13 +50,20 @@ From a terminal instead:
 claude plugin install tasks --marketplace johannesDeml/git-tasks
 ```
 
-**Without access to GitHub from where Claude Code runs** (e.g. a firewalled dev container): check the repository out into your project on a machine that has access, as `.claude/skills/tasks/`, for example as a submodule:
+**Without access to GitHub from where Claude Code runs** (e.g. a firewalled dev container): check the repository out into your project on a machine that has access, for example as a submodule:
 
 ```
-git submodule add https://github.com/johannesDeml/git-tasks .claude/skills/tasks
+git submodule add https://github.com/johannesDeml/git-tasks tools/claude-plugins/tasks
 ```
 
-Claude Code loads a plugin from the project's skills folder by itself.
+Then, where Claude Code runs (inside the container), add the checkout as a local marketplace and install from it:
+
+```
+claude plugin marketplace add ./tools/claude-plugins/tasks --scope project
+claude plugin install tasks@tasks --scope project
+```
+
+This writes the checkout's absolute path to `.claude/settings.json`, so run it inside the container, not on the host. To load the checkout for one session without installing, start `claude --plugin-dir tools/claude-plugins/tasks`. Not `.claude/skills/`: Claude Code reads only standalone `SKILL.md` folders there, not plugins.
 
 ## Development
 
